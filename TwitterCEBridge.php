@@ -55,7 +55,10 @@ class TwitterCEBridge extends BridgeAbstract {
       }
 
       $medias = array();
-      foreach ($tweet->find('div.js-media-container .media-thumbnail') as $_media) {
+      foreach ($tweet->find('div.js-media-container a') as $_media) {
+        $medias[] = $_media->getAttribute('data-resolved-url-large');
+      }
+      foreach ($tweet->find('div.js-media-container div.media-thumbnail') as $_media) {
         $medias[] = $_media->getAttribute('data-resolved-url-large');
       }
 
@@ -76,7 +79,7 @@ class TwitterCEBridge extends BridgeAbstract {
         $content .= "<div class=\"medias\">";
         foreach ($medias as $_media) {
           $content .= "<a href=\"".$_media."\" target=\"_blank\">";
-          $content .= "<img src=\"".$_media."\" alt=\"\" style=\"max-width:".(100/count($medias))."%;\" />";
+          $content .= "<img src=\"".$_media."\" alt=\"\" />";
           $content .= "</a>";
         }
         $content .= "</div>";
